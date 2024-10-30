@@ -7,16 +7,16 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div class="card">
+    <div class="card">              <!-- This would be the main card to populate the weather information-->
         <div class="search">
             <input type="text" placeholder="enter city name" 
             spellcheck="false">
             <button><img src="images/search.png"></button>
         </div>
-        <div class="error">
+        <div class="error">         <!--We want to diaplay an error message if a wrong city name is entered. We added this at the end of the project-->
             <p>Invaild City Name</p>
         </div>
-        <div class="weather">
+        <div class="weather">        <!--This is the default information for the card. It would be edited by the scripts at the end of the HTML-->
             <img src="images/rain.png" class="weather-icon">
             <h1 class="temp">22°c</h1>
             <h2 class="city">New York</h2>
@@ -39,10 +39,12 @@
         </div>
     </div>
 
-    <script>
+    <script>     
+         //This is our scripts to add an free API and populate the Json Information into our application
+        
 
         const apiKey = "2b09e4b4b7f1dc1047f3b2f0da39980b";
-        const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";
+        const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";    
 
         const searchBox = document.querySelector(".search input");
         const searchBtn = document.querySelector(".search button");
@@ -52,7 +54,7 @@
         async function checkWeather(city){
            const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
 
-           if(response.status == 404){
+           if(response.status == 404){     //This was added at the end of project to display an error if the wrong city name was entered
             document.querySelector(".error").style.display = "block";
             document.querySelector(".weather").style.display = "none";
            }else{
@@ -65,7 +67,7 @@
            document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
            document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
 
-           if(data.weather[0].main == "Clouds"){
+           if(data.weather[0].main == "Clouds"){           //Using a loop to loop through our pictures and output the correct imgage for each weather using the Json information in API
             weatherIcon.src = "images/clouds.png";
            }
            else if(data.weather[0].main == "Clear"){
@@ -82,7 +84,7 @@
 
            }
 
-           document.querySelector(".weather").style.display = "block";
+           document.querySelector(".weather").style.display = "block";   //Want the error message to only show when an invalid input is made
            document.querySelector(".error").style.display = "none";
 
            }
@@ -90,7 +92,7 @@
         }
 
 
-        searchBtn.addEventListener("click", ()=>{
+        searchBtn.addEventListener("click", ()=>{        //This is in my opinion the coolest part of coding bringing everything together with one click
             checkWeather(searchBox.value);
         })
 
